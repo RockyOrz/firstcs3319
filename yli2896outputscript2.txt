@@ -1,0 +1,246 @@
+ERROR 1064 (42000) at line 3: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--insert data
+SELECT * FROM patients' at line 1
+--------------
+--insert data
+SELECT * FROM patients
+--------------
+
+--------------
+LOAD DATA LOCAL INFILE '/home/centos/asn2/patientINFO' INTO TABLE patients FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+--------------
+
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Deleted: 0  Skipped: 0  Warnings: 0
+
+--------------
+SELECT * FROM patients
+--------------
+
++-----------+------------+-----------+
+| OHIP      | first_name | last_name |
++-----------+------------+-----------+
+| 110112113 | Bill       | Gellar    |
+| 111222111 | Suzi       | Bing      |
+| 111222333 | Jon        | Green     |
+| 333444555 | Colleen    | Gellar    |
+| 444555666 | Sean       | Gellar    |
+| 667766777 | Scotty     | Bing      |
++-----------+------------+-----------+
+6 rows in set (0.00 sec)
+
+--------------
+INSERT INTO patients (OHIP,first_name,last_name) VALUES("888888888","Rocky","Li")
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM patients
+--------------
+
++-----------+------------+-----------+
+| OHIP      | first_name | last_name |
++-----------+------------+-----------+
+| 110112113 | Bill       | Gellar    |
+| 111222111 | Suzi       | Bing      |
+| 111222333 | Jon        | Green     |
+| 333444555 | Colleen    | Gellar    |
+| 444555666 | Sean       | Gellar    |
+| 667766777 | Scotty     | Bing      |
+| 888888888 | Rocky      | Li        |
++-----------+------------+-----------+
+7 rows in set (0.00 sec)
+
+--------------
+INSERT INTO hospitals (hospital_code,hospital_name,city,province,num_of_beds) VALUES("BBC","St.Joseph","London","On",1000),("ABC","Victoria","London","On",1600),("DDE","Victoria","Victoria","BC",1200)
+--------------
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * FROM hospitals
+--------------
+
++---------------+---------------+----------+----------+-------------+
+| hospital_code | hospital_name | city     | province | num_of_beds |
++---------------+---------------+----------+----------+-------------+
+| ABC           | Victoria      | London   | On       |        1600 |
+| BBC           | St.Joseph     | London   | On       |        1000 |
+| DDE           | Victoria      | Victoria | BC       |        1200 |
++---------------+---------------+----------+----------+-------------+
+3 rows in set (0.00 sec)
+
+--------------
+INSERT INTO doctors (first_name,last_name,license_number,licensed_date,specialty,works_in,head_of_hospital,head_started_date) VALUES("Bernie","Kavorikian","RD34",'1980-09-09',"Urologist",NULL,NULL,NULL),("Joey","Shabado","GD56",'1960-06-24',"Podiatrist",NULL,"BBC",'1999-09-10'),("Ross","Clooney","HT45",'1987-06-20',"Surgeon",NULL,NULL,NULL),("Ben","Spock","YT67",'1955-05-20',"Pediatrician",NULL,"DDE",'1997-12-07'),("Mandy","Webster","JK78",'1990-08-08',"Surgeon",NULL,NULL,NULL),("Colleen","Aziz","SE66",'1989-08-24',"Surgeon",NULL,"ABC",'1994-12-05'),("Yuankun","Li","CH88",'1997-11-02',"Surgeon",NULL,NULL,NULL)
+--------------
+
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * FROM doctors
+--------------
+
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| first_name | last_name  | license_number | licensed_date | specialty    | works_in | head_of_hospital | head_started_date |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| Yuankun    | Li         | CH88           | 1997-11-02    | Surgeon      | NULL     | NULL             | NULL              |
+| Joey       | Shabado    | GD56           | 1960-06-24    | Podiatrist   | NULL     | BBC              | 1999-09-10        |
+| Ross       | Clooney    | HT45           | 1987-06-20    | Surgeon      | NULL     | NULL             | NULL              |
+| Mandy      | Webster    | JK78           | 1990-08-08    | Surgeon      | NULL     | NULL             | NULL              |
+| Bernie     | Kavorikian | RD34           | 1980-09-09    | Urologist    | NULL     | NULL             | NULL              |
+| Colleen    | Aziz       | SE66           | 1989-08-24    | Surgeon      | NULL     | ABC              | 1994-12-05        |
+| Ben        | Spock      | YT67           | 1955-05-20    | Pediatrician | NULL     | DDE              | 1997-12-07        |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+7 rows in set (0.00 sec)
+
+--------------
+INSERT INTO treatments (OHIP,patient_Fname,patient_Lname,doctor_license,doctor_Fname,doctor_Lname) VALUES(110112113,"Bill","Gellar","GD56","Joey","Shabado"),(444555666,"Sean","Gellar","HT45","Ross","Clooney"),(444555666,"Sean","Gellar","JK78","Mandy","Webster"),(111222333,"Jon","Green","SE66","Colleen","Aziz"),(111222333,"Jon","Green","YT67","Ben","Spock"),(111222333,"Jon","Green","JK78","Mandy","Webster"),(333444555,"Colleen","Gellar","GD56","Joey","Shabado"),(667766777,"Scotty","Bing","YT67","Ben","Spock"),(667766777,"Scotty","Bing","JK78","Mandy","Webster"),(667766777,"Scotty","Bing","GD56","Joey","Shabado"),(111222111,"Suzi","Bing","YT67","Ben","Spock"),(888888888,"Rocky","Li","CH88","Yuankun","Li")
+--------------
+
+Query OK, 12 rows affected (0.02 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * FROM treatments
+--------------
+
++-----------+---------------+---------------+----------------+--------------+--------------+
+| OHIP      | patient_Fname | patient_Lname | doctor_license | doctor_Fname | doctor_Lname |
++-----------+---------------+---------------+----------------+--------------+--------------+
+| 110112113 | Bill          | Gellar        | GD56           | Joey         | Shabado      |
+| 111222111 | Suzi          | Bing          | YT67           | Ben          | Spock        |
+| 111222333 | Jon           | Green         | JK78           | Mandy        | Webster      |
+| 111222333 | Jon           | Green         | SE66           | Colleen      | Aziz         |
+| 111222333 | Jon           | Green         | YT67           | Ben          | Spock        |
+| 333444555 | Colleen       | Gellar        | GD56           | Joey         | Shabado      |
+| 444555666 | Sean          | Gellar        | HT45           | Ross         | Clooney      |
+| 444555666 | Sean          | Gellar        | JK78           | Mandy        | Webster      |
+| 667766777 | Scotty        | Bing          | GD56           | Joey         | Shabado      |
+| 667766777 | Scotty        | Bing          | JK78           | Mandy        | Webster      |
+| 667766777 | Scotty        | Bing          | YT67           | Ben          | Spock        |
+| 888888888 | Rocky         | Li            | CH88           | Yuankun      | Li           |
++-----------+---------------+---------------+----------------+--------------+--------------+
+12 rows in set (0.00 sec)
+
+ERROR 1064 (42000) at line 16: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--update works_in data
+UPDATE doctors SET works_in = "BBC" WHERE license_number ' at line 1
+--------------
+--update works_in data
+UPDATE doctors SET works_in = "BBC" WHERE license_number = "RD34"
+--------------
+
+--------------
+UPDATE doctors SET works_in = "BBC" WHERE license_number = "GD56"
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctors SET works_in = "DDE" WHERE license_number = "HT45"
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctors SET works_in = "DDE" WHERE license_number = "YT67"
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctors SET works_in = "BBC" WHERE license_number = "JK78"
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctors SET works_in = "ABC" WHERE license_number = "SE66"
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE doctors SET works_in = "ABC" WHERE license_number = "CH88"
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT * FROM doctors
+--------------
+
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| first_name | last_name  | license_number | licensed_date | specialty    | works_in | head_of_hospital | head_started_date |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| Yuankun    | Li         | CH88           | 1997-11-02    | Surgeon      | ABC      | NULL             | NULL              |
+| Joey       | Shabado    | GD56           | 1960-06-24    | Podiatrist   | BBC      | BBC              | 1999-09-10        |
+| Ross       | Clooney    | HT45           | 1987-06-20    | Surgeon      | DDE      | NULL             | NULL              |
+| Mandy      | Webster    | JK78           | 1990-08-08    | Surgeon      | BBC      | NULL             | NULL              |
+| Bernie     | Kavorikian | RD34           | 1980-09-09    | Urologist    | NULL     | NULL             | NULL              |
+| Colleen    | Aziz       | SE66           | 1989-08-24    | Surgeon      | ABC      | ABC              | 1994-12-05        |
+| Ben        | Spock      | YT67           | 1955-05-20    | Pediatrician | DDE      | DDE              | 1997-12-07        |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+7 rows in set (0.00 sec)
+
+--------------
+UPDATE patients SET last_name = "Brown" WHERE OHIP = 111222111
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT * FROM patients
+--------------
+
++-----------+------------+-----------+
+| OHIP      | first_name | last_name |
++-----------+------------+-----------+
+| 110112113 | Bill       | Gellar    |
+| 111222111 | Suzi       | Brown     |
+| 111222333 | Jon        | Green     |
+| 333444555 | Colleen    | Gellar    |
+| 444555666 | Sean       | Gellar    |
+| 667766777 | Scotty     | Bing      |
+| 888888888 | Rocky      | Li        |
++-----------+------------+-----------+
+7 rows in set (0.00 sec)
+
+--------------
+UPDATE treatments SET doctor_license = "HT45", doctor_Fname = "Ross", doctor_Lname = "Clooney" WHERE doctor_Lname = "Spock"
+--------------
+
+Query OK, 3 rows affected (0.00 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+--------------
+SELECT * FROM treatments
+--------------
+
++-----------+---------------+---------------+----------------+--------------+--------------+
+| OHIP      | patient_Fname | patient_Lname | doctor_license | doctor_Fname | doctor_Lname |
++-----------+---------------+---------------+----------------+--------------+--------------+
+| 110112113 | Bill          | Gellar        | GD56           | Joey         | Shabado      |
+| 111222111 | Suzi          | Bing          | HT45           | Ross         | Clooney      |
+| 111222333 | Jon           | Green         | HT45           | Ross         | Clooney      |
+| 111222333 | Jon           | Green         | JK78           | Mandy        | Webster      |
+| 111222333 | Jon           | Green         | SE66           | Colleen      | Aziz         |
+| 333444555 | Colleen       | Gellar        | GD56           | Joey         | Shabado      |
+| 444555666 | Sean          | Gellar        | HT45           | Ross         | Clooney      |
+| 444555666 | Sean          | Gellar        | JK78           | Mandy        | Webster      |
+| 667766777 | Scotty        | Bing          | GD56           | Joey         | Shabado      |
+| 667766777 | Scotty        | Bing          | HT45           | Ross         | Clooney      |
+| 667766777 | Scotty        | Bing          | JK78           | Mandy        | Webster      |
+| 888888888 | Rocky         | Li            | CH88           | Yuankun      | Li           |
++-----------+---------------+---------------+----------------+--------------+--------------+
+12 rows in set (0.00 sec)
+
+Bye

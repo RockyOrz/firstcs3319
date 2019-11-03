@@ -1,0 +1,23 @@
+USE yli2896assign2db;
+
+SELECT * FROM doctors;
+
+-- The line below is not successful, because there is a foreign key fails which not allow the deletion occurs.
+DELETE FROM doctors WHERE licensed_date < '1965-01-01';
+
+SELECT * FROM doctors;
+DROP VIEW IF EXISTS head_treatments;
+CREATE VIEW head_treatments AS SELECT treatments.patient_Fname, patient_Lname, treatments.doctor_Lname, hospitals.hospital_name FROM treatments, doctors, hospitals WHERE doctors.head_of_hospital = hospitals.hospital_code AND treatments.doctor_Fname = doctors.first_name AND doctors.head_of_hospital IS NOT NULL AND head_started_date > '1995-12-31';
+SELECT * FROM head_treatments;
+SELECT * FROM doctors;
+SELECT * FROM treatments;
+DELETE FROM treatments WHERE doctor_Lname = "Clooney";
+DELETE FROM doctors WHERE last_name = "Clooney";
+SELECT * FROM doctors;
+SHOW CREATE TABLE treatments;
+SELECT * FROM doctors;
+DELETE FROM doctors WHERE specialty = "Surgeon";
+
+--The delete command did not delete the rows because there still exists rows in treats, and there are foreign keys in treats which
+--forced the doctor exists before delete the rows in treats
+

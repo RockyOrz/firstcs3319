@@ -1,0 +1,177 @@
+--------------
+SELECT last_name FROM patients
+--------------
+
++-----------+
+| last_name |
++-----------+
+| Gellar    |
+| Brown     |
+| Green     |
+| Gellar    |
+| Gellar    |
+| Bing      |
+| Li        |
++-----------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT DISTINCT last_name FROM patients
+--------------
+
++-----------+
+| last_name |
++-----------+
+| Gellar    |
+| Brown     |
+| Green     |
+| Bing      |
+| Li        |
++-----------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctors ORDER BY last_name
+--------------
+
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| first_name | last_name  | license_number | licensed_date | specialty    | works_in | head_of_hospital | head_started_date |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| Colleen    | Aziz       | SE66           | 1989-08-24    | Surgeon      | ABC      | ABC              | 1994-12-05        |
+| Ross       | Clooney    | HT45           | 1987-06-20    | Surgeon      | DDE      | NULL             | NULL              |
+| Bernie     | Kavorikian | RD34           | 1980-09-09    | Urologist    | NULL     | NULL             | NULL              |
+| Yuankun    | Li         | CH88           | 1997-11-02    | Surgeon      | ABC      | NULL             | NULL              |
+| Joey       | Shabado    | GD56           | 1960-06-24    | Podiatrist   | BBC      | BBC              | 1999-09-10        |
+| Ben        | Spock      | YT67           | 1955-05-20    | Pediatrician | DDE      | DDE              | 1997-12-07        |
+| Mandy      | Webster    | JK78           | 1990-08-08    | Surgeon      | BBC      | NULL             | NULL              |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT hospital_name, hospital_code FROM hospitals WHERE num_of_beds > 1500
+--------------
+
++---------------+---------------+
+| hospital_name | hospital_code |
++---------------+---------------+
+| Victoria      | ABC           |
++---------------+---------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT DISTINCT last_name, first_name FROM doctors JOIN hospitals WHERE works_in = "BBC"
+--------------
+
++-----------+------------+
+| last_name | first_name |
++-----------+------------+
+| Shabado   | Joey       |
+| Webster   | Mandy      |
++-----------+------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT first_name, last_name FROM patients WHERE last_name LIKE "G%"
+--------------
+
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Bill       | Gellar    |
+| Jon        | Green     |
+| Colleen    | Gellar    |
+| Sean       | Gellar    |
++------------+-----------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT patient_Fname, patient_Lname FROM treatments WHERE doctor_Lname = "Clooney"
+--------------
+
++---------------+---------------+
+| patient_Fname | patient_Lname |
++---------------+---------------+
+| Suzi          | Bing          |
+| Jon           | Green         |
+| Sean          | Gellar        |
+| Scotty        | Bing          |
++---------------+---------------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT hospitals.hospital_name, hospitals.city, doctors.last_name FROM hospitals, doctors WHERE doctors.head_of_hospital = hospitals.hospital_code
+--------------
+
++---------------+----------+-----------+
+| hospital_name | city     | last_name |
++---------------+----------+-----------+
+| Victoria      | London   | Aziz      |
+| St.Joseph     | London   | Shabado   |
+| Victoria      | Victoria | Spock     |
++---------------+----------+-----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT SUM(num_of_beds) AS "Total Number of Beds" FROM hospitals
+--------------
+
++----------------------+
+| Total Number of Beds |
++----------------------+
+|                 3800 |
++----------------------+
+1 row in set (0.01 sec)
+
+--------------
+SELECT treatments.patient_Fname, treatments.doctor_Fname FROM treatments, doctors WHERE treatments.doctor_Fname = doctors.first_name AND doctors.head_of_hospital IS NOT NULL
+--------------
+
++---------------+--------------+
+| patient_Fname | doctor_Fname |
++---------------+--------------+
+| Bill          | Joey         |
+| Jon           | Colleen      |
+| Colleen       | Joey         |
+| Scotty        | Joey         |
++---------------+--------------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT last_name, first_name FROM doctors WHERE specialty = "Surgeon" AND works_in = "ABC" OR specialty = "Surgeon" AND works_in = "DDE"
+--------------
+
++-----------+------------+
+| last_name | first_name |
++-----------+------------+
+| Li        | Yuankun    |
+| Clooney   | Ross       |
+| Aziz      | Colleen    |
++-----------+------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT doctors.last_name FROM doctors LEFT JOIN treatments ON doctors.license_number = treatments.doctor_license WHERE treatments.OHIP IS NULL
+--------------
+
++------------+
+| last_name  |
++------------+
+| Kavorikian |
+| Spock      |
++------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT doctor_Lname, doctor_Fname FROM treatments GROUP BY doctor_license HAVING COUNT(*) > 1
+--------------
+
++--------------+--------------+
+| doctor_Lname | doctor_Fname |
++--------------+--------------+
+| Shabado      | Joey         |
+| Clooney      | Ross         |
+| Webster      | Mandy        |
++--------------+--------------+
+3 rows in set (0.00 sec)
+
+Bye

@@ -1,0 +1,29 @@
+USE yli2896assign2db;
+
+-- Query 1 
+
+SELECT last_name FROM patients;
+-- Query 2 
+SELECT DISTINCT last_name FROM patients;
+-- Query 3
+SELECT * FROM doctors ORDER BY last_name;
+-- Query 4
+SELECT hospital_name, hospital_code FROM hospitals WHERE num_of_beds > 1500;
+-- Query 5
+SELECT DISTINCT last_name, first_name FROM doctors JOIN hospitals WHERE works_in = "BBC";
+-- Query 6
+SELECT first_name, last_name FROM patients WHERE last_name LIKE "G%";
+-- Query 7
+SELECT patient_Fname, patient_Lname FROM treatments WHERE doctor_Lname = "Clooney";
+-- Query 8
+SELECT hospitals.hospital_name, hospitals.city, doctors.last_name FROM hospitals, doctors WHERE doctors.head_of_hospital = hospitals.hospital_code;
+-- Query 9
+SELECT SUM(num_of_beds) AS "Total Number of Beds" FROM hospitals;
+-- Query 10
+SELECT treatments.patient_Fname, treatments.doctor_Fname FROM treatments, doctors WHERE treatments.doctor_Fname = doctors.first_name AND doctors.head_of_hospital IS NOT NULL;
+-- Query 11
+SELECT last_name, first_name FROM doctors WHERE specialty = "Surgeon" AND works_in = "ABC" OR specialty = "Surgeon" AND works_in = "DDE";
+-- Query 12
+SELECT doctors.last_name FROM doctors LEFT JOIN treatments ON doctors.license_number = treatments.doctor_license WHERE treatments.OHIP IS NULL;
+-- Query 13
+SELECT doctor_Lname, doctor_Fname FROM treatments GROUP BY doctor_license HAVING COUNT(*) > 1;

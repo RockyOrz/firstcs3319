@@ -1,0 +1,15 @@
+SHOW DATABASES;
+DROP DATABASE IF EXISTS yli2896assign2db;
+CREATE DATABASE yli2896assign2db;
+USE yli2896assign2db;
+GRANT USAGE ON *.* TO 'ta'@'localhost';
+DROP USER 'ta'@'localhost';
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319';
+GRANT ALL PRIVILEGES ON yourwesternuseridassign2db.* TO 'ta'@'localhost';
+FLUSH PRIVILEGES;
+SHOW TABLES;
+CREATE TABLE patients(OHIP INT(9) PRIMARY KEY, first_name VARCHAR(20), last_name VARCHAR(20));
+CREATE TABLE hospitals(hospital_code VARCHAR(3) PRIMARY KEY, hospital_name VARCHAR(20), city VARCHAR(20), province VARCHAR(2), num_of_beds INT);
+CREATE TABLE doctors(first_name VARCHAR(20), last_name VARCHAR(20), license_number VARCHAR(4) PRIMARY KEY, licensed_date DATE, specialty VARCHAR(30), works_in VARCHAR(3), head_of_hospital VARCHAR(3), head_started_date DATE, FOREIGN KEY(head_of_hospital) REFERENCES hospitals(hospital_code) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY(works_in) REFERENCES hospitals(hospital_code) ON UPDATE RESTRICT ON DELETE CASCADE);
+CREATE TABLE treatments(OHIP INT(9), patient_Fname VARCHAR(20), patient_Lname VARCHAR(20), doctor_license VARCHAR(4), doctor_Fname VARCHAR(20), doctor_Lname VARCHAR(20), PRIMARY KEY(OHIP, doctor_license), FOREIGN KEY (OHIP) REFERENCES patients (OHIP) ON UPDATE RESTRICT, FOREIGN KEY (doctor_license) REFERENCES doctors (license_number) ON UPDATE RESTRICT);
+SHOW TABLES;

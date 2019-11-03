@@ -1,0 +1,181 @@
+--------------
+SELECT * FROM doctors
+--------------
+
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| first_name | last_name  | license_number | licensed_date | specialty    | works_in | head_of_hospital | head_started_date |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| Yuankun    | Li         | CH88           | 1997-11-02    | Surgeon      | ABC      | NULL             | NULL              |
+| Joey       | Shabado    | GD56           | 1960-06-24    | Podiatrist   | BBC      | BBC              | 1999-09-10        |
+| Ross       | Clooney    | HT45           | 1987-06-20    | Surgeon      | DDE      | NULL             | NULL              |
+| Mandy      | Webster    | JK78           | 1990-08-08    | Surgeon      | BBC      | NULL             | NULL              |
+| Bernie     | Kavorikian | RD34           | 1980-09-09    | Urologist    | NULL     | NULL             | NULL              |
+| Colleen    | Aziz       | SE66           | 1989-08-24    | Surgeon      | ABC      | ABC              | 1994-12-05        |
+| Ben        | Spock      | YT67           | 1955-05-20    | Pediatrician | DDE      | DDE              | 1997-12-07        |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+7 rows in set (0.00 sec)
+
+ERROR 1451 (23000) at line 6: Cannot delete or update a parent row: a foreign key constraint fails (`yli2896assign2db`.`treatments`, CONSTRAINT `treatments_ibfk_2` FOREIGN KEY (`doctor_license`) REFERENCES `doctors` (`license_number`))
+--------------
+DELETE FROM doctors WHERE licensed_date < '1965-01-01'
+--------------
+
+--------------
+SELECT * FROM doctors
+--------------
+
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| first_name | last_name  | license_number | licensed_date | specialty    | works_in | head_of_hospital | head_started_date |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| Yuankun    | Li         | CH88           | 1997-11-02    | Surgeon      | ABC      | NULL             | NULL              |
+| Joey       | Shabado    | GD56           | 1960-06-24    | Podiatrist   | BBC      | BBC              | 1999-09-10        |
+| Ross       | Clooney    | HT45           | 1987-06-20    | Surgeon      | DDE      | NULL             | NULL              |
+| Mandy      | Webster    | JK78           | 1990-08-08    | Surgeon      | BBC      | NULL             | NULL              |
+| Bernie     | Kavorikian | RD34           | 1980-09-09    | Urologist    | NULL     | NULL             | NULL              |
+| Colleen    | Aziz       | SE66           | 1989-08-24    | Surgeon      | ABC      | ABC              | 1994-12-05        |
+| Ben        | Spock      | YT67           | 1955-05-20    | Pediatrician | DDE      | DDE              | 1997-12-07        |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+7 rows in set (0.00 sec)
+
+--------------
+DROP VIEW IF EXISTS head_treatments
+--------------
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+--------------
+CREATE VIEW head_treatments AS SELECT treatments.patient_Fname, patient_Lname, treatments.doctor_Lname, hospitals.hospital_name FROM treatments, doctors, hospitals WHERE doctors.head_of_hospital = hospitals.hospital_code AND treatments.doctor_Fname = doctors.first_name AND doctors.head_of_hospital IS NOT NULL AND head_started_date > '1995-12-31'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT * FROM head_treatments
+--------------
+
++---------------+---------------+--------------+---------------+
+| patient_Fname | patient_Lname | doctor_Lname | hospital_name |
++---------------+---------------+--------------+---------------+
+| Bill          | Gellar        | Shabado      | St.Joseph     |
+| Colleen       | Gellar        | Shabado      | St.Joseph     |
+| Scotty        | Bing          | Shabado      | St.Joseph     |
++---------------+---------------+--------------+---------------+
+3 rows in set (0.01 sec)
+
+--------------
+SELECT * FROM doctors
+--------------
+
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| first_name | last_name  | license_number | licensed_date | specialty    | works_in | head_of_hospital | head_started_date |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| Yuankun    | Li         | CH88           | 1997-11-02    | Surgeon      | ABC      | NULL             | NULL              |
+| Joey       | Shabado    | GD56           | 1960-06-24    | Podiatrist   | BBC      | BBC              | 1999-09-10        |
+| Ross       | Clooney    | HT45           | 1987-06-20    | Surgeon      | DDE      | NULL             | NULL              |
+| Mandy      | Webster    | JK78           | 1990-08-08    | Surgeon      | BBC      | NULL             | NULL              |
+| Bernie     | Kavorikian | RD34           | 1980-09-09    | Urologist    | NULL     | NULL             | NULL              |
+| Colleen    | Aziz       | SE66           | 1989-08-24    | Surgeon      | ABC      | ABC              | 1994-12-05        |
+| Ben        | Spock      | YT67           | 1955-05-20    | Pediatrician | DDE      | DDE              | 1997-12-07        |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM treatments
+--------------
+
++-----------+---------------+---------------+----------------+--------------+--------------+
+| OHIP      | patient_Fname | patient_Lname | doctor_license | doctor_Fname | doctor_Lname |
++-----------+---------------+---------------+----------------+--------------+--------------+
+| 110112113 | Bill          | Gellar        | GD56           | Joey         | Shabado      |
+| 111222111 | Suzi          | Bing          | HT45           | Ross         | Clooney      |
+| 111222333 | Jon           | Green         | HT45           | Ross         | Clooney      |
+| 111222333 | Jon           | Green         | JK78           | Mandy        | Webster      |
+| 111222333 | Jon           | Green         | SE66           | Colleen      | Aziz         |
+| 333444555 | Colleen       | Gellar        | GD56           | Joey         | Shabado      |
+| 444555666 | Sean          | Gellar        | HT45           | Ross         | Clooney      |
+| 444555666 | Sean          | Gellar        | JK78           | Mandy        | Webster      |
+| 667766777 | Scotty        | Bing          | GD56           | Joey         | Shabado      |
+| 667766777 | Scotty        | Bing          | HT45           | Ross         | Clooney      |
+| 667766777 | Scotty        | Bing          | JK78           | Mandy        | Webster      |
+| 888888888 | Rocky         | Li            | CH88           | Yuankun      | Li           |
++-----------+---------------+---------------+----------------+--------------+--------------+
+12 rows in set (0.00 sec)
+
+--------------
+DELETE FROM treatments WHERE doctor_Lname = "Clooney"
+--------------
+
+Query OK, 4 rows affected (0.00 sec)
+
+--------------
+DELETE FROM doctors WHERE last_name = "Clooney"
+--------------
+
+Query OK, 1 row affected (0.12 sec)
+
+--------------
+SELECT * FROM doctors
+--------------
+
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| first_name | last_name  | license_number | licensed_date | specialty    | works_in | head_of_hospital | head_started_date |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| Yuankun    | Li         | CH88           | 1997-11-02    | Surgeon      | ABC      | NULL             | NULL              |
+| Joey       | Shabado    | GD56           | 1960-06-24    | Podiatrist   | BBC      | BBC              | 1999-09-10        |
+| Mandy      | Webster    | JK78           | 1990-08-08    | Surgeon      | BBC      | NULL             | NULL              |
+| Bernie     | Kavorikian | RD34           | 1980-09-09    | Urologist    | NULL     | NULL             | NULL              |
+| Colleen    | Aziz       | SE66           | 1989-08-24    | Surgeon      | ABC      | ABC              | 1994-12-05        |
+| Ben        | Spock      | YT67           | 1955-05-20    | Pediatrician | DDE      | DDE              | 1997-12-07        |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+6 rows in set (0.00 sec)
+
+--------------
+SHOW CREATE TABLE treatments
+--------------
+
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table      | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| treatments | CREATE TABLE `treatments` (
+  `OHIP` int(9) NOT NULL DEFAULT '0',
+  `patient_Fname` varchar(20) DEFAULT NULL,
+  `patient_Lname` varchar(20) DEFAULT NULL,
+  `doctor_license` varchar(4) NOT NULL DEFAULT '',
+  `doctor_Fname` varchar(20) DEFAULT NULL,
+  `doctor_Lname` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`OHIP`,`doctor_license`),
+  KEY `doctor_license` (`doctor_license`),
+  CONSTRAINT `treatments_ibfk_1` FOREIGN KEY (`OHIP`) REFERENCES `patients` (`OHIP`),
+  CONSTRAINT `treatments_ibfk_2` FOREIGN KEY (`doctor_license`) REFERENCES `doctors` (`license_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 |
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT * FROM doctors
+--------------
+
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| first_name | last_name  | license_number | licensed_date | specialty    | works_in | head_of_hospital | head_started_date |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+| Yuankun    | Li         | CH88           | 1997-11-02    | Surgeon      | ABC      | NULL             | NULL              |
+| Joey       | Shabado    | GD56           | 1960-06-24    | Podiatrist   | BBC      | BBC              | 1999-09-10        |
+| Mandy      | Webster    | JK78           | 1990-08-08    | Surgeon      | BBC      | NULL             | NULL              |
+| Bernie     | Kavorikian | RD34           | 1980-09-09    | Urologist    | NULL     | NULL             | NULL              |
+| Colleen    | Aziz       | SE66           | 1989-08-24    | Surgeon      | ABC      | ABC              | 1994-12-05        |
+| Ben        | Spock      | YT67           | 1955-05-20    | Pediatrician | DDE      | DDE              | 1997-12-07        |
++------------+------------+----------------+---------------+--------------+----------+------------------+-------------------+
+6 rows in set (0.00 sec)
+
+ERROR 1451 (23000) at line 19: Cannot delete or update a parent row: a foreign key constraint fails (`yli2896assign2db`.`treatments`, CONSTRAINT `treatments_ibfk_2` FOREIGN KEY (`doctor_license`) REFERENCES `doctors` (`license_number`))
+ERROR 1064 (42000) at line 21: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--The delete command did not delete the rows because there still exists rows in ' at line 1
+--------------
+DELETE FROM doctors WHERE specialty = "Surgeon"
+--------------
+
+--------------
+--The delete command did not delete the rows because there still exists rows in treats, and there are foreign keys in treats which
+--forced the doctor exists before delete the rows in treats
+--------------
+
+Bye

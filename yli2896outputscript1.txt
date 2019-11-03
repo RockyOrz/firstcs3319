@@ -1,0 +1,103 @@
+--------------
+SHOW DATABASES
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| FC                 |
+| mysql              |
+| performance_schema |
+| vetoffice          |
+| yli2896assign2db   |
++--------------------+
+6 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS yli2896assign2db
+--------------
+
+Query OK, 5 rows affected (0.12 sec)
+
+--------------
+CREATE DATABASE yli2896assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+GRANT USAGE ON *.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+DROP USER 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT ALL PRIVILEGES ON yourwesternuseridassign2db.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+FLUSH PRIVILEGES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+CREATE TABLE patients(OHIP INT(9) PRIMARY KEY, first_name VARCHAR(20), last_name VARCHAR(20))
+--------------
+
+Query OK, 0 rows affected (0.11 sec)
+
+--------------
+CREATE TABLE hospitals(hospital_code VARCHAR(3) PRIMARY KEY, hospital_name VARCHAR(20), city VARCHAR(20), province VARCHAR(2), num_of_beds INT)
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+
+--------------
+CREATE TABLE doctors(first_name VARCHAR(20), last_name VARCHAR(20), license_number VARCHAR(4) PRIMARY KEY, licensed_date DATE, specialty VARCHAR(30), works_in VARCHAR(3), head_of_hospital VARCHAR(3), head_started_date DATE, FOREIGN KEY(head_of_hospital) REFERENCES hospitals(hospital_code) ON UPDATE RESTRICT ON DELETE CASCADE, FOREIGN KEY(works_in) REFERENCES hospitals(hospital_code) ON UPDATE RESTRICT ON DELETE CASCADE)
+--------------
+
+Query OK, 0 rows affected (0.21 sec)
+
+--------------
+CREATE TABLE treatments(OHIP INT(9), patient_Fname VARCHAR(20), patient_Lname VARCHAR(20), doctor_license VARCHAR(4), doctor_Fname VARCHAR(20), doctor_Lname VARCHAR(20), PRIMARY KEY(OHIP, doctor_license), FOREIGN KEY (OHIP) REFERENCES patients (OHIP) ON UPDATE RESTRICT, FOREIGN KEY (doctor_license) REFERENCES doctors (license_number) ON UPDATE RESTRICT)
+--------------
+
+Query OK, 0 rows affected (0.19 sec)
+
+--------------
+SHOW TABLES
+--------------
+
++----------------------------+
+| Tables_in_yli2896assign2db |
++----------------------------+
+| doctors                    |
+| hospitals                  |
+| patients                   |
+| treatments                 |
++----------------------------+
+4 rows in set (0.00 sec)
+
+Bye
